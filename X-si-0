@@ -1,0 +1,174 @@
+#include <iostream>
+using namespace std;
+#include<string>
+#include<ctime>
+#include <cstdlib>
+
+//a[0][0] a[0][1] a[0][2]
+//a[1][0] a[1][1] a[1][2]
+//a[2][0] a[2][1] a[2][2]
+
+
+
+void initializare(char a[3][3]){
+    
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            a[i][j]= ' ' ;
+        }
+    }
+}
+     
+void afisare(char a[3][3]){
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            cout<<a[i][j]<<" ";
+            if(j<2) cout<< " | ";
+        }
+        cout<<endl;
+        if(i<2) cout<< "---|----|---"<<endl;
+    }
+}
+
+bool verificareCasutaLibera(char matrice[3][3]){
+    bool casutaLibera=false;
+    for(int i=0;i<3;i++ ){
+        for(int j=0;j<3;j++){
+            
+            if(matrice[i][j]==' '){
+                casutaLibera=true;
+                break;
+            }
+        }
+    }
+    return casutaLibera;
+}
+
+void Pozitii(char b[3][3]){
+    
+    cout<<"Pozitii disponibile: "<<endl;
+    for(int i=0;i<3;i++ ){
+        for(int j=0;j<3;j++){
+            if(b[i][j]==' '){
+                cout<<"["<<i+1<<"]"<<"["<<j+1<<"] ";
+            }
+        }
+        
+    }
+    
+}
+
+void mutarePlayer(int i,int j,char mat[3][3]){
+    if(mat[i][j]==' ')
+        mat[i][j]=' X';
+    else cout<<"Nu se poate efectua mutarea! Pozitie indisponibila!!"<<endl;
+    afisare(mat);
+    
+}
+bool verificareWinPlayer(char mat[3][3]) {
+    
+    for (int i = 0; i < 3; i++) {
+        if (mat[i][0] == 'X' && mat[i][1] == 'X' && mat[i][2] == 'X')
+            return true;
+    }
+
+    
+    for (int j = 0; j < 3; j++) {
+        if (mat[0][j] == 'X' && mat[1][j] == 'X' && mat[2][j] == 'X')
+            return true;
+    }
+
+    
+    if (mat[0][0] == 'X' && mat[1][1] == 'X' && mat[2][2] == 'X')
+        return true;
+
+    if (mat[0][2] == 'X' && mat[1][1] == 'X' && mat[2][0] == 'X')
+        return true;
+
+    return false;
+}
+bool verificareWinAdversar(char mat[3][3]) {
+    
+    for (int i = 0; i < 3; i++) {
+        if (mat[i][0] == '0' && mat[i][1] == '0' && mat[i][2] == '0')
+            return true;
+    }
+    
+    
+    for (int j = 0; j < 3; j++) {
+        if (mat[0][j] == '0' && mat[1][j] == '0' && mat[2][j] == '0')
+            return true;
+    }
+    
+    
+    if (mat[0][0] == '0' && mat[1][1] == '0' && mat[2][2] == '0')
+        return true;
+    
+    if (mat[0][2] == '0' && mat[1][1] == '0' && mat[2][0] == '0')
+        return true;
+    
+    return false;
+    
+}
+
+
+
+void mutareAdeversar(char tabla[3][3], int linie, int coloana){
+   
+        srand(time(0));
+
+        do {
+            linie = rand() % 3;
+            coloana = rand() % 3;
+        } while(tabla[linie][coloana] != ' ');
+
+        tabla[linie][coloana] = '0';
+        cout << "Calculatorul a pus 0 pe pozitia [" << linie << "][" << coloana << "]\n";
+    afisare(tabla);
+    }
+
+void jocprincipal(){
+    
+    char matrice[3][3];
+    initializare(matrice);
+    
+    bool win = false;
+    
+    afisare(matrice);
+    cout<<" Incepe jocul!\n ";
+    
+    while(win == false && verificareCasutaLibera(matrice)==true){
+        Pozitii(matrice);
+        cout<<"\n Alege o pozitie: "<<endl;
+        cout<<"(SCRIE POZITIA ALEASA ASA 1 2 pentru [1][2])"<<endl;
+        int i,j;
+        cin>>i>>j;
+        mutarePlayer(i-1,j-1,matrice);
+        if(verificareWinPlayer(matrice)==true)
+        {
+            win=true;
+            cout<<"Ai castigat!! FELICITARI!!";
+        }
+        else{
+            cout<<"Urmeaza mutarea adversarului...\n";
+            mutareAdeversar(matrice,0, 0);
+            
+            
+        }
+    }
+}
+ 
+    
+int main(){
+    
+    cout<<"Joc de X si O"<<endl;
+    cout<<" De Ancuta Mario Alexandru"<<endl;
+    
+    char a[3][3];
+    
+    jocprincipal();
+   
+   
+    return 0;
+}
+
