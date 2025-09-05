@@ -1,0 +1,101 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <algorithm>
+using namespace std;
+
+struct Produs {
+    string nume;
+    int cantitate;
+    double pret;
+};
+
+vector<Produs> citireProduse(const string& filename) {
+    vector<Produs> produse;
+    ifstream fin(filename);
+    if (!fin) {
+        cout << "Eroare: Nu se poate deschide fisierul " << filename << "!\n";
+        return produse;
+    }
+
+    Produs p;
+    while (fin >> p.nume >> p.cantitate >> p.pret) {
+        if (p.cantitate >= 0 && p.pret >= 0) {
+            produse.push_back(p);
+        }
+        else {
+            cout << "Eroare: Date invalide pentru produsul " << p.nume << "\n";
+        }
+    }
+    return produse;
+}
+
+void afisareProduse(const vector<Produs>& produse) {
+    if (produse.empty()) {
+        cout << "Nu exista produse in stoc.\n";
+        return;
+    }
+    cout << "\nLista produse:\n";
+    cout << setw(20) << "Nume" << " | " << setw(10) << "Cantitate" << " | " << setw(10) << "Pret\n";
+    cout << string(45, '-') << "\n";
+    for (const auto& p : produse) {
+        cout << setw(20) << p.nume << " | " << setw(10) << p.cantitate << " | " << fixed << setprecision(2) << setw(10) << p.pret << "\n";
+    }
+}
+
+string toLower(const string& s) {
+    string result = s;
+    transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
+void produsMinim(const vector<Produs>& produse) {
+    if (produse.empty()) {
+        cout << "Nu exista produse in stoc.\n";
+        return;
+    }
+
+    const Produs* minim = &produse[0];
+    double valoareMin = produse[0].cantitate * produse[0].pret;
+
+    for (const auto& p : produse) {
+        double valoare = p.cantitate * p.pret;
+        if (valoare < valoareMin) {
+            valoareMin = valoare;
+            minim = &p;
+        }
+    }
+
+    cout << "\nProdusul cu valoarea minima din stoc este: "
+        << minim->nume << " | Cantitate: " << minim->cantitate
+        << " | Pret: " << fixed << setprecision(2) << minim->pret
+        << " | Valoare totala: " << fixed << setprecision(2) << valoareMin << "\n";
+}
+
+
+double valoareTotala(const vector<Produs>& produse) {
+    double total = 0;
+    for (const auto& p : produse) {
+        total += p.cantitate * p.pret;
+    }
+    return total;
+}
+
+int main() {
+    vector<Produs> produse = citireProduse("Produse.txt");
+    if (produse.empty()) {
+        cout << "Stocul este gol sau fisierul nu contine date valide.\n";
+        return 0;
+    }
+
+    afisareProduse(produse);
+    cout << "\nValoare totala stoc: " << fixed << setprecision(2) << valoareTotala(produse) << "\n";
+
+   
+
+    produsMinim(produse); 
+
+
+    return 0;
+}
