@@ -1,0 +1,8 @@
+Descriere
+Programul citește un vector de numere, îl sortează folosind Bubble Sort, apoi caută un element folosind căutare binară, iar ca si
+
+Funcționalități, avem
+citire vector de la tastatură
+sortare crescătoare (Bubble Sort)
+afișare vector sortat
+căutare element (Binary Search)
