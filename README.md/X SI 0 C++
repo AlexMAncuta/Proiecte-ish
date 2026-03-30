@@ -1,0 +1,14 @@
+Acest program implementează un joc clasic de X și O în C++, unde:
+jucătorul este X
+calculatorul este 0 (zero)
+tabla de joc este o matrice 3x3
+Jocul se desfășoară în consolă și continuă până când:
+un jucător câștigă
+nu mai există mutări disponibile (remiză – deși nu este tratată explicit) iar,
+
+Jucătorul introduce coordonatele unde vrea să pună X
+Calculatorul pune 0 pe o poziție liberă aleasă random
+Se câștigă dacă un jucător are:
+3 simboluri pe linie
+3 pe coloană
+3 pe diagonală
