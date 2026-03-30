@@ -1,0 +1,7 @@
+# Sistem de Gestiune Bibliotecă (SQL)
+Acest proiect gestionează o bază de date pentru o bibliotecă, folosind **MySQL**.
+
+### Ce conține:
+- Tabel pentru **Autori**, **Cărți** și **Împrumuturi**.
+- Relații de tip Foreign Key.
+- Interogări complexe cu `JOIN`.
