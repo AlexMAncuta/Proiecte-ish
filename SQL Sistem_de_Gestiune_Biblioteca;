@@ -1,0 +1,65 @@
+USE Sistem_de_Gestiune_Biblioteca;
+
+CREATE TABLE Autori(
+    autor_id INT AUTO_INCREMENT PRIMARY KEY,
+    nume VARCHAR(20) NOT NULL,
+    tara_origine VARCHAR(50)
+);
+        SELECT * FROM Autori;
+
+INSERT INTO Autori (nume, tara_origine)
+  VALUES ('Stephen King', 'USA'),
+         ('George Orwell', 'India'),
+         ('Jane Austen', 'USA'),
+         ('Mark Twain', 'USA'),
+         ('Charles Dickens', 'England');
+
+CREATE TABLE Carti(
+        carte_id INT AUTO_INCREMENT PRIMARY KEY,
+        titlu VARCHAR(50) NOT NULL,
+        an_publicatie INT,
+        autor_id INT,
+        FOREIGN KEY (autor_id) REFERENCES Autori(autor_id)
+);
+        SELECT * FROM Carti;
+
+INSERT INTO Carti (titlu, an_publicatie, autor_id)
+VALUES
+('The Shining', 1977,1),
+('1984', 1948,2),
+('Pride and Prejudice', 1813,3),
+('Is He Dead?',2007,4),
+('Oliver Twist',1838,5);
+
+SELECT Carti.titlu, Autori.nume
+From Carti
+JOIN Autori ON Carti.autor_id = Autori.autor_id;
+
+CREATE TABLE Imprumuturi(
+    id_imprumut INT AUTO_INCREMENT PRIMARY KEY,
+    carte_id INT,
+    FOREIGN KEY (carte_id) REFERENCES Carti(carte_id),
+    data_imprumut DATE,
+    data_scadere DATE,
+    nume_client VARCHAR(25)
+);
+SELECT * FROM Imprumuturi;
+
+INSERT INTO Imprumuturi (carte_id, data_imprumut, data_scadere, nume_client)
+VALUES (1, '2026-01-01', '2026-01-31', 'Andrei Ionescu'),
+       (2, '2026-02-01', '2026-02-28', 'Maria Prodan'),
+       (3, '2026-03-01', '2026-03-31', 'Cristi Pop'),
+       (5, '2026-04-01', '2026-04-30', 'Elena Viziru');
+
+
+UPDATE Imprumuturi
+SET nume_client = 'Codin Pop'
+WHERE id_imprumut = 3;
+
+SELECT
+    Imprumuturi.nume_client AS 'Client',
+    Carti.titlu AS 'Titlu Carte',
+    Autori.nume AS 'Autor'
+FROM Imprumuturi
+JOIN Carti ON Imprumuturi.carte_id = Carti.carte_id
+JOIN Autori ON Carti.autor_id = Autori.autor_id;
