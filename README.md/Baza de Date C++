@@ -1,0 +1,8 @@
+Acest program C++ citește o listă de produse dintr-un fișier text și oferă informații despre stoc, cum ar fi:
+afișarea produselor
+calcularea valorii totale a stocului
+identificarea produsului cu valoarea minimă iar,
+Fiecare produs este definit prin structura:
+nume – denumirea produsului (string)
+cantitate – numărul de bucăți (int)
+pret – prețul unui produs (double)
